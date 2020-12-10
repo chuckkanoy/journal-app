@@ -1,36 +1,65 @@
-import { StatusBar } from 'expo-status-bar';
-import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text, TextInput, View, Button } from 'react-native';
+import React, {useContext} from 'react';
+import { Text, View } from 'react-native';
 import 'react-native-gesture-handler';
-import { NavigationContainer } from '@react-navigation/native';
-import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import 'intl';
 import 'intl/locale-data/jsonp/en';
 
 import Header from '../constants/Header';
-import Menu from '../constants/Menu';
+import { Checkbox } from 'react-native-paper';
+import EntryContext from '../context/context';
+import styles from '../styles/styles';
 
 export default function Settings({navigation}) {
-    const [showMenu, setShowMenu] = useState(false);
-    
-    const updateMenu = () => {setShowMenu(!showMenu); console.log(showMenu)};
+    // get values and methods as necessary from 
+    const {calendarSelected, updateCalendarSelected,
+      listSelected, setListSelected,
+      entrySelected, setEntrySelected,
+      updateMarks} = useContext(EntryContext);
 
-    const menu = showMenu ? 
-          <Menu style={{opacity: 100}} navigation={navigation} updateMenu={updateMenu}/> : 
-          <Menu style={{opacity: 0}} navigation={navigation} updateMenu={updateMenu}/>;
+    // declare constant for the color of the checkboxes
+    const checkColor = 'skyblue';
 
+    // display screen with header and different settings options
     return (
         <View style={styles.container}>
-            <Header updateMenu={updateMenu}/>
-            {menu}
-            <Text>Settings</Text>
+            <Header navigation={navigation}/>
+            <View style={styles.content}>
+            <Text>Calendar</Text>
+            <View style={styles.individual}>
+              <Checkbox
+                status={calendarSelected ? 'checked' : "unchecked"}
+                // update the marks on the calendar when checked
+                onPress={() => {
+                  updateMarks();
+                  updateCalendarSelected();
+                }}
+                color={checkColor}
+              />
+              <Text>Show mood color on calendar view</Text>
+            </View>
+            <Text>List</Text>
+            <View style={styles.individual}>
+              <Checkbox
+                status={listSelected ? 'checked' : "unchecked"}
+                onPress={() => {
+                  setListSelected(!listSelected);
+                }}
+                color={checkColor}
+              />
+              <Text>Show section of body in list</Text>
+            </View>
+            <Text>Entry</Text>
+            <View style={styles.individual}>
+              <Checkbox
+                status={entrySelected ? 'checked' : "unchecked"}
+                onPress={() => {
+                  setEntrySelected(!entrySelected);
+                }}
+                color={checkColor}
+              />
+              <Text>Manual date entry/editing</Text>
+            </View>
+            </View>
         </View>
     );
   }
-
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-    },
-  });

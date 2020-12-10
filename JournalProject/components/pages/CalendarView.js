@@ -1,41 +1,58 @@
-import { StatusBar } from 'expo-status-bar';
-import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text, TextInput, View, Button } from 'react-native';
+import React, {useContext} from 'react';
+import {View} from 'react-native';
 import 'react-native-gesture-handler';
-import { NavigationContainer } from '@react-navigation/native';
-import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
+import { Calendar } from 'react-native-calendars';
 import 'intl';
 import 'intl/locale-data/jsonp/en';
 
 import Header from '../constants/Header';
-import Menu from '../constants/Menu';
+import EntryContext from '../context/context';
+import styles from '../styles/styles';
 
 export default function CalendarView({navigation}) {
-    const [showMenu, setShowMenu] = useState(false);
-    
-    const updateMenu = () => {setShowMenu(!showMenu)};
+  // get necessary values from context
+    var {entries, datesMarked} = useContext(EntryContext);
 
-    const menu = showMenu ? 
-          <Menu style={{opacity: 100}} navigation={navigation} updateMenu={updateMenu}/> : 
-          <Menu style={{opacity: 0}} navigation={navigation} updateMenu={updateMenu}/>;
-
+    //display screen with header 
     return (
         <View style={styles.container}>
-            <Header updateMenu={updateMenu}/>
-            {menu}
+            <Header navigation={navigation}/>
+            {/* https://github.com/wix/react-native-calendars */}
             <Calendar
-              markedDates={{
-                '2020-11-26': {marked:true, selectedColor: 'orange'}
+              markingType={'period'}
+              markedDates={datesMarked}
+              onDayPress={(day) => {
+                // handle different conditions on the number of entries for day selected
+                switch(getNumOnDay(entries, day)) {
+                  case 0: navigation.navigate('Create', {entry: {date: day.dateString}});
+                    break;
+                  case 1: navigation.navigate('View', {entry: getEntryOnDay(entries, day)});
+                    break;
+                  default: navigation.navigate('Search', {searchString: day.dateString});
+                }
               }}
-              onDayPress={(day) => {navigation.navigate('Create')}}
             />
         </View>
     );
   }
 
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-    },
-  });
+  //get entry if only one appears on the day
+  function getEntryOnDay(entries, day) {
+    var result = {};
+    entries.map((entry) => {
+      if(entry.date === day.dateString){
+        result = entry;
+      }
+    });
+    return result;
+  }
+
+  //get the number of entries for the specified day
+  function getNumOnDay(entries, day) {
+    var entriesAtDate = 0;
+    entries.map((entry) => {
+      if(entry.date === day.dateString)
+        entriesAtDate++;
+    })
+    return entriesAtDate;
+  }

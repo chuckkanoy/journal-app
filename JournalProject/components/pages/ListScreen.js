@@ -1,33 +1,27 @@
-import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
-import { StyleSheet, Text, TextInput, View, Button } from 'react-native';
+import React, {useContext} from 'react';
+import { View } from 'react-native';
 import 'react-native-gesture-handler';
-import {NavigationContainer} from '@react-navigation/native';
 
 import Header from '../constants/Header';
-import Menu from '../constants/Menu';
+import { ScrollView } from 'react-native-gesture-handler';
+import EntryContext from '../context/context';
+import ListBlock from '../constants/ListBlock';
+import styles from '../styles/styles';
 
 export default function ListScreen({navigation}) {
-  const [showMenu, setShowMenu] = useState(false);
-    
-  const updateMenu = () => {setShowMenu(!showMenu); console.log(showMenu)};
+  // get values necessary from context
+  const {entries, listSelected} = useContext(EntryContext);
 
-  const menu = showMenu ? 
-        <Menu style={{opacity: 100}} navigation={navigation} updateMenu={updateMenu}/> : 
-        <Menu style={{opacity: 0}} navigation={navigation} updateMenu={updateMenu}/>;
-
+  // display screen with header and scrollable list
   return (
       <View style={styles.container}>
-          <Header updateMenu={updateMenu}/>
-          {menu}
-        <Text>List View</Text>
+        <Header navigation={navigation}/>
+        <ScrollView>
+          {/* create object for each entry */}
+          {entries ? entries.map((entry) => 
+                  <ListBlock entry={entry} navigation={navigation} list={listSelected}key={entry.id}/>
+          ) : ''}
+        </ScrollView>
       </View>
     );
   }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-});

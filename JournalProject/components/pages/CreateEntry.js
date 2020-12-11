@@ -162,6 +162,7 @@ export default function CreateEntry({navigation, route}) {
         setNewEntry('');
     }
 
+    //component to easily identify required fields
     const requiredIndicator = <Text style={{color: 'red'}}>*</Text>;
 
     // declare edit constant to pass as prop to header

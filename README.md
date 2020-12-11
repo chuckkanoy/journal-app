@@ -40,7 +40,9 @@ To run the app, npm must be installed on the computer, a smartphone must be conn
 ### Start the app
 
 - Run the app using the following commands:
+
 `cd JournalProject`
+
 `npm start`
 
   - If `This command requires Expo CLI` appears, install globally using `Y` or `y`

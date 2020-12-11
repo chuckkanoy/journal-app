@@ -27,9 +27,7 @@ To run the app, npm must be installed on the computer, a smartphone must be conn
 
 ### Setting up the environment
 
-- Install npm on your computer using the following commands:
-`cd JournalProject`
-`npm install`
+- Install [Node](https://nodejs.org/en/download/) and [Node Package Manager](https://www.npmjs.com/get-npm)
 
 - Install [Expo](https://expo.io/) through the appropriate app store
 
@@ -44,6 +42,6 @@ To run the app, npm must be installed on the computer, a smartphone must be conn
 `npm install`
 `npm start`
 
-  - If `This command requires Expo CLI` appears, install globally using `Y` or `y`
+- If `This command requires Expo CLI` appears, install globally using `Y` or `y`
 
 - In the expo window that appears in browser, click the option you'd like (Android, iOS, or browser simulator)

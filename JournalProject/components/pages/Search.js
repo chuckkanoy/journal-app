@@ -16,7 +16,7 @@ export default function Search({navigation, route}) {
   const [foundEntries, setFoundEntries] = useState([]);
 
   // get necessary values from context
-  const {entries} = useContext(EntryContext);
+  const {entries, listSelected} = useContext(EntryContext);
 
   // declare suggestions context for when no results are found
   const suggestions = <Text>{`  No results matched your search\n
@@ -76,7 +76,7 @@ export default function Search({navigation, route}) {
           />
           <ScrollView>
             {foundEntries.length !== 0 ? foundEntries.map((entry) => 
-              <ListBlock entry={entry} navigation={navigation} key={entry.id}/>
+              <ListBlock entry={entry} navigation={navigation} list={listSelected} key={entry.id}/>
             ) : suggestions}
           </ScrollView>
         </View>

@@ -111,7 +111,7 @@ export default function CreateEntry({navigation, route}) {
         if(!newEntry) {
             errors.entry = "A entry is required";
             errorHit = true;
-        } else if(checkTitleLimit(newEntry)) {
+        } else if(checkEntryLimit(newEntry)) {
             errorHit = true;
         } else
             errors.entry = null;
@@ -162,6 +162,8 @@ export default function CreateEntry({navigation, route}) {
         setNewEntry('');
     }
 
+    const requiredIndicator = <Text style={{color: 'red'}}>*</Text>;
+
     // declare edit constant to pass as prop to header
     const edit = <IconButton style={styles.edit} icon="pencil"
         onPress={() => {
@@ -187,7 +189,7 @@ export default function CreateEntry({navigation, route}) {
             <Header navigation={navigation} edit={edit}/>
             <ScrollView style={styles.creationScroll}>
             {entrySelected ? (<>
-                <Text>Date (YYYY-MM-DD): </Text>
+                <Text>Date (YYYY-MM-DD):{requiredIndicator} </Text>
                 <Text style={styles.error}>{errors.date}</Text>
                 <TextInput
                     style={styles.dateBox}
@@ -195,7 +197,7 @@ export default function CreateEntry({navigation, route}) {
                         setNewDate(text);
                     }}
                 />
-            </>) : (<><Text>Date:</Text>
+            </>) : (<><Text>Date:{requiredIndicator}</Text>
             <Text style={styles.error}>{errors.date}</Text>
             <Text 
                 style={styles.dateBox}
@@ -206,7 +208,7 @@ export default function CreateEntry({navigation, route}) {
                 {newDate}
             </Text>
             {calendar}</>)}
-            <Text>Title:</Text>
+            <Text>Title:{requiredIndicator}</Text>
             {/* show either error or characters used message as necessary */}
             {errors.title !== null ? 
                 (<Text style={styles.error}>{errors.title}</Text>) :
@@ -220,7 +222,7 @@ export default function CreateEntry({navigation, route}) {
                 }}    
                 value={newTitle}
             />
-            <Text>Mood:</Text>
+            <Text>Mood:{requiredIndicator}</Text>
             <Text style={styles.error}>{errors.mood}</Text>
             <View style={styles.moodSelection}>
                 {/* update the highlight of a moood if pressed */}
@@ -249,7 +251,7 @@ export default function CreateEntry({navigation, route}) {
                     🙂
                 </Text>
             </View>
-            <Text>Entry:</Text>
+            <Text>Entry:{requiredIndicator}</Text>
             {/* show either error or characters used message as needed */}
             {errors.entry !== null ? 
                 (<Text style={styles.error}>{errors.entry}</Text>) :

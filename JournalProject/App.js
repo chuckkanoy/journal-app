@@ -159,6 +159,6 @@ export default function App() {
           />
         </Stack.Navigator>
       </NavigationContainer>
-      </EntryContext.Provider>
+    </EntryContext.Provider>
   );
 }

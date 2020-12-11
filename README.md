@@ -4,7 +4,7 @@
 This application allows the user to create, store, edit, and view journal entries following different UI guidelines.
 *Created for CSCI 488: Human-Computer Interaction*
 
-[Demo](https://youtu.be/Wm61n1Kwu8c)
+[Demo](https://youtu.be/TxZp-A1nkaQ)
 
 ## Reading
 
